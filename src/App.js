@@ -1,17 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class App extends Component {
+import Tabs from './Tabs'
+import VideoPanel from './VideoPanel'
+
+class App extends React.Component {
   // initialize state
   state = {
 
   };
 
+  // Within each tab goes the content for the given tab
   render() {
     return (
       <div>
-        Hello world!
+        <h1>INDEFATIGABLE</h1>
+        <Tabs>
+          <div label="Videos">
+            <h3>Video segments!</h3>
+            <VideoPanel></VideoPanel>
+          </div>
+          <div label="Playlists">
+            <h3>Playlists!</h3>
+          </div>
+        </Tabs>
       </div>
-    )
+    );
   }
 }
 
