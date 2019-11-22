@@ -16,8 +16,7 @@ class App extends React.Component {
         <h1>INDEFATIGABLE</h1>
         <Tabs>
           <div label="Videos">
-            <h3>Video segments!</h3>
-            <VideoPanel></VideoPanel>
+            <VideoPanel />
           </div>
           <div label="Playlists">
             <h3>Playlists!</h3>
