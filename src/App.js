@@ -2,6 +2,7 @@ import React from 'react';
 
 import Tabs from './Tabs'
 import VideoPanel from './VideoPanel'
+import PlaylistPanel from './PlaylistPanel'
 
 class App extends React.Component {
   // initialize state
@@ -19,7 +20,7 @@ class App extends React.Component {
             <VideoPanel />
           </div>
           <div label="Playlists">
-            <h3>Playlists!</h3>
+            <PlaylistPanel />
           </div>
         </Tabs>
       </div>
