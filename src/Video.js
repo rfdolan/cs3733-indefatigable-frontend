@@ -12,11 +12,11 @@ class Video extends React.Component {
     }
     render() {
         return (
-            <div style={{padding:"10px", border:"3px solid red", maxWidth:"400px" }}>
+            <div style={{padding:"10px", maxWidth:"400px", backgroundColor: "#3ed2e6", borderRadius: "25px" }}>
                 <h3>{this.state.title}</h3>
                 <h4>Character: {this.state.character}</h4>
                 <h4>Transcript: {this.state.transcript}</h4>
-                <video src={this.state.url} width="320" height="240" controls>Your browser does not support this video.</video>
+                <video src={this.state.url} width="320" height="240" style={{borderRadius: "25px"}} controls>Your browser does not support this video.</video>
             </div>
         );
     }

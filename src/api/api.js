@@ -9,6 +9,8 @@ var delete_url = base_url + "delete";       // Can't send JSON to DELETE request
 var list_url   = base_url + "constants";    // GET
 
 */
-var base_url = "https://hwefwhoesf.execute-api.us-east-2.amazonaws.com/rho/";
+var base_url = "https://h7ytdl5v95.execute-api.us-east-2.amazonaws.com/alpha/";
 
 var get_all_videos_url = base_url + "getAllSegments"; // GET
+
+export default get_all_videos_url;

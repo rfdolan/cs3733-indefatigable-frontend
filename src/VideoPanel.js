@@ -1,15 +1,19 @@
 import React from 'react'
 import Video from './Video'
 import axios from 'axios'
-import './api/api.js'
+import './style/VideoPanel.css'
 
+const base_url ="https://h7ytdl5v95.execute-api.us-east-2.amazonaws.com/alpha/"
+const get_all_videos_url = base_url + "getAllSegments"
+/*
 const sampleData = [{title: "Vid Title", transcript: "It is illogical", url: "https://cs3733-indefatigable.s3.us-east-2.amazonaws.com/media/Kirk-ItIsIllogical.ogg",
 character: "Kirk", isRemote: false, isRemoteAvailable: true}, {title: "Vid2 Title", transcript: "Arg", url: "https://cs3733-indefatigable.s3.us-east-2.amazonaws.com/media/fisher-agh.ogg",
-character: "Fisher", isRemote: false, isRemoteAvailable: true}];
+character: "Fisher", isRemote: true, isRemoteAvailable: true}];
+*/
 class VideoPanel extends React.Component {
 
     state = {
-        videos: sampleData,
+        videos: [],
         localOnly: false,
     }
 
@@ -17,20 +21,31 @@ class VideoPanel extends React.Component {
         console.log("You want to upload a new segment don't you squidward.");
     }
 
-    /*
+    
     getAllVideos = () => {
-        axios.get(get_all_videos_url).then((res) => {this.setState( { videos: res.list })});
-
+        axios.get(get_all_videos_url)
+        .then((res) => {this.setState( { videos: res.data.list })})
+        .then(this.renderVideos());
     }
-    */
+    
+
+    toggleFilter = () => {
+        this.setState({localOnly: !this.state.localOnly});
+        this.renderVideos();
+    }
     
     renderVideos = () => {
+        // Array of JSX videos we want to render.
         let vids = [];
         for(let i=0; i<this.state.videos.length; i++ ) {
             let currVid = this.state.videos[i];
-            vids.push(<div style={{padding: "5px", float: "left"}}><Video title={currVid.title} transcript={currVid.transcript} url={currVid.url} 
-                character={currVid.character} isRemote={currVid.isRemote} isRemotelyAvailable={currVid.isRemotelyAvailable}></Video></div>);
+            // If we are not filtering by local only OR if we are and this is a local video, add it to the array.
+            if((!this.state.localOnly) || (this.state.localOnly && !currVid.isRemote)){
+                vids.push(<div style={{padding: "5px", float: "left"}}><Video title={currVid.title} transcript={currVid.transcript} url={currVid.url} 
+                    character={currVid.character} isRemote={currVid.isRemote} isRemotelyAvailable={currVid.isRemotelyAvailable}></Video></div>);
+            }
         }
+        // Return our JSX tags to render.
         return vids;
 
     }
@@ -38,7 +53,15 @@ class VideoPanel extends React.Component {
     render() {
         return (
             <div>
-                <button type="button" onClick={this.uploadNewSegment}>Upload new video</button>
+                {this.getAllVideos()}
+                <div>
+                    <h4>Local segments only</h4>
+                    <label className="switch">
+                        <input type="checkbox" onClick={this.toggleFilter}></input>
+                        <span className="slider round"></span>
+                    </label><br />
+                </div>
+                <button type="button" onClick={this.uploadNewSegment}>Upload new video</button><br />
                 {this.renderVideos()}
             </div>
         );
