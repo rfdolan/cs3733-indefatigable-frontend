@@ -11,6 +11,5 @@ var list_url   = base_url + "constants";    // GET
 */
 var base_url = "https://h7ytdl5v95.execute-api.us-east-2.amazonaws.com/alpha/";
 
-var get_all_videos_url = base_url + "getAllSegments"; // GET
 
-export default get_all_videos_url;
+export default base_url;
