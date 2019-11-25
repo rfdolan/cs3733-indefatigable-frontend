@@ -51,6 +51,9 @@ class PlaylistPanel extends React.Component {
     render() {
         return (
             <div>
+                <label >New Playlist Name:
+                    <input type="text"></input>
+                </label>
                 <button type="button" onClick={this.createNewPlaylist}>Create new playlist</button><br />
                 <br />
                 {this.renderPlaylists()}
