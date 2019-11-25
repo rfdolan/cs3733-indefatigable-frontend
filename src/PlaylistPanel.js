@@ -23,14 +23,14 @@ class PlaylistPanel extends React.Component {
     }
 
     createNewPlaylist = () =>{
-        console.log("You want to create a new playlist don't you squidward.");
+        //console.log("You want to create a new playlist don't you squidward.");
     }
 
     
     getAllPlaylists = () => {
-        console.log("Gettin' em");
+        //console.log("Gettin' em");
         axios.get(get_all_playlists_url)
-        .then((res) => {  console.log(res);  this.setState( { playlists: res.data.playlists })})
+        .then((res) => {  /*console.log(res);*/  this.setState( { playlists: res.data.playlists })})
         .then(() => {if(this._isMounted) {this.renderPlaylists()}});
     }
 

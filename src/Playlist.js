@@ -14,18 +14,18 @@ class Playlist extends React.Component {
             let data = {};
             data["puid"] = this.props.id;
             let js = JSON.stringify(data);
-            console.log("Request: " + js);
+            //console.log("Request: " + js);
             let xhr = new XMLHttpRequest();
             xhr.open("POST", delete_url, true);
 
             xhr.send(js);
             
             xhr.onloadend = () => {
-                console.log(xhr);
-                console.log(xhr.request);
+                //console.log(xhr);
+                //console.log(xhr.request);
 
-                if(xhr.readyState == XMLHttpRequest.DONE) {
-                    console.log("XHR:" + xhr.responseText);
+                if(xhr.readyState === XMLHttpRequest.DONE) {
+                    //console.log("XHR:" + xhr.responseText);
                     this.processDeleteResponse(this.state.id, xhr.responseText);
                 }
                 else {
@@ -46,12 +46,12 @@ class Playlist extends React.Component {
     }
 
     processDeleteResponse = (puid, result) => {
-        console.log("result:" + result);
+        //console.log("result:" + result);
         let js = JSON.parse(result);
 
         let status = js["statusCode"];
 
-        if(status == 200) {
+        if(status === 200) {
             console.log("Deleted");
             this.props.deletePlaylistHandler();
         }
