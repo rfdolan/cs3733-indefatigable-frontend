@@ -23,13 +23,14 @@ class PlaylistPanel extends React.Component {
     }
 
     createNewPlaylist = () =>{
-        console.log("You want to create a new playlist don't you squidward.");
+        //console.log("You want to create a new playlist don't you squidward.");
     }
 
     
     getAllPlaylists = () => {
+        //console.log("Gettin' em");
         axios.get(get_all_playlists_url)
-        .then((res) => {  console.log(res);  this.setState( { playlists: res.data.playlists })})
+        .then((res) => {  /*console.log(res);*/  this.setState( { playlists: res.data.playlists })})
         .then(() => {if(this._isMounted) {this.renderPlaylists()}});
     }
 
@@ -39,7 +40,7 @@ class PlaylistPanel extends React.Component {
         for(let i=0; i<this.state.playlists.length; i++ ) {
             let currPlaylist = this.state.playlists[i];
             list.push(<li key={currPlaylist.ID} style={{listStyleType: "none", adding: "5px", float: "left"}}>
-                <Playlist title={currPlaylist.name} videos={currPlaylist.allVideos} id={currPlaylist.ID}></Playlist></li>);
+                <Playlist title={currPlaylist.name} videos={currPlaylist.videos} id={currPlaylist.ID} deletePlaylistHandler={this.getAllPlaylists}></Playlist></li>);
 
         }
         // Return our JSX tags to render.
@@ -51,6 +52,7 @@ class PlaylistPanel extends React.Component {
         return (
             <div>
                 <button type="button" onClick={this.createNewPlaylist}>Create new playlist</button><br />
+                <br />
                 {this.renderPlaylists()}
             </div>
         );
