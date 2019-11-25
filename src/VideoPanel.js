@@ -65,13 +65,29 @@ class VideoPanel extends React.Component {
         return (
             <div>
                 <div>
-                    <h4>Local segments only</h4>
+                    <form>
+                        <label style={{display:"inline-block"}}>
+                            Search:
+                            <input type="text" style={{margin: "5px"}} />
+                            <select style={{margin: "5px"}}>
+                                <option value="any">Any character</option>
+                                <option value="Kirk">Kirk</option>
+                                <option value="Spock">Spock</option>
+                                <option value="McCoy">McCoy</option>
+                                <option value="Fisher">Fisher</option>
+                            </select>
+                            <button type="submit">Go</button>
+                        </label>
+                    </form>
+                    <p>Local segments only</p>
                     <label className="switch">
                         <input type="checkbox" onClick={this.toggleFilter}></input>
                         <span className="slider round"></span>
-                    </label><br />
+                    </label>
                 </div>
+                <br />
                 <button type="button" onClick={this.uploadNewSegment}>Upload new video</button><br />
+                <br />
                 {this.renderVideos()}
             </div>
         );
