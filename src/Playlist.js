@@ -1,5 +1,6 @@
 import React from 'react'
 import base_url from './api/api.js'
+import { FaTrashAlt } from 'react-icons/fa';
 
 const delete_url = base_url + 'deletePlaylist'
 class Playlist extends React.Component {
@@ -64,8 +65,8 @@ class Playlist extends React.Component {
     render() {
         return (
             <div style={{padding:"10px", maxWidth:"325px", backgroundColor: "#399e5a", borderRadius: "25px", margin:"5px" }}>
+                <FaTrashAlt style={{float: "right"}} onClick={this.deletePlaylist}/>
                 <h3>{this.state.title}</h3>
-                <button onClick={this.deletePlaylist}>Delete</button>
             </div>
         )
     }

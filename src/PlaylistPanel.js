@@ -37,7 +37,7 @@ class PlaylistPanel extends React.Component {
         xhr.send(js);
 
         xhr.onloadend = () => {
-            if(xhr.readyState == XMLHttpRequest.DONE) {
+            if(xhr.readyState === XMLHttpRequest.DONE) {
                 this.processCreateResponse(xhr.responseText);
             }
             else {
