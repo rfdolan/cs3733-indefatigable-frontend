@@ -31,7 +31,7 @@ class VideoPanel extends React.Component {
     }
 
     uploadNewSegment = () =>{
-        console.log("You want to upload a new segment don't you squidward.");
+	this.chandleCreateClick();
     }
     
     getAllVideos = () => {
@@ -79,14 +79,12 @@ class VideoPanel extends React.Component {
   var form = document.createForm;
  
   var data = {};
-  data["name"]               = form.constantName.value;
-  
-  if (form.system.checked) {  // be sure to flag system constant requests...
-     data["system"] = true;
+  data["b64"]               = form.constantName.value;
+  data["system"] = true;
   }
   
   // base64EncodedValue":"data:text/plain;base64,My4xND....."
-  var segments = document.createForm.base64Encoding.value.split(',');
+  var segments = document.createForm.b64.value.split(',');
   data["base64EncodedValue"] = segments[1];  // skip first one 
 
   var js = JSON.stringify(data);
@@ -137,17 +135,19 @@ class VideoPanel extends React.Component {
                     </label>
                 </div>
                 <br />
-Video Title:<input type="text" placeholder="Video Title" style={{margin: "5px"}} />
-                <input type="base64Encoding" hidden value=""/>
+
+<form name ="createForm">
+Video Title:<input type="text" placeholder="Video Title" name="videoT" style={{margin: "5px"}} />
+                <input type="base64Encoding" name="b64" hidden value=""/>
 Video Character:<input type="text" placeholder="Video Character" style={{margin: "5px"}} />
-Video Transcript:<input type="text" placeholder="Video Transcript" style={{margin: "5px"}} />
+Video Transcript:<input type="text" placeholder="Video Transcript" name="VideoTrans" style={{margin: "5px"}} />
 Select a video file: <input type="file" id="videoF" name="videoF" />
                 <button type="button" onClick={this.uploadNewSegment}>Upload new video</button><br />
                 <br />
                 {this.renderVideos()}
             </div>
         );
-    }
+    } </form>
 }
 
 export default VideoPanel;
