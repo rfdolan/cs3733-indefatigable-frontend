@@ -1,6 +1,6 @@
 import React from 'react'
 import base_url from "./api/api"
-import { FaTrashAlt } from 'react-icons/fa';
+import {FaTrashAlt} from 'react-icons/fa'
 
 const delete_url = base_url + 'deleteSegment'
 
@@ -13,6 +13,7 @@ class Video extends React.Component {
         isRemote: this.props.isRemote,
         isRemotelyAvailable: this.props.isRemotelyAvailable,
         id: this.props.id,
+        inPlaylistView: this.props.inPlaylistView
     }
 
     deleteVideo = () => {
@@ -34,23 +35,27 @@ class Video extends React.Component {
     }
 
     processDeleteResponse = (vuid, reuslt) => {
-        let js = JSON.parse(reuslt);
-        let status = js["statusCode"];
-        if(status === 200) {
-            console.log("Deleted");
-            this.props.deleteVideoHandler();
-        }else{
+        let js = JSON.parse(reuslt)
+        let status = js["statusCode"]
+        if (status === 200) {
+            console.log("Deleted")
+            this.props.deleteVideoHandler()
+        } else {
             console.log("Video couldn't be deleted.")
         }
+    }
+    deleteVideoFromPlaylist = () => {
+        alert("not yet implemented!")
     }
 
     render() {
         return (
             <div style={{padding: "10px", maxWidth: "325px", backgroundColor: "#3ed2e6", borderRadius: "25px"}}>
-                <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
+                {!this.state.inPlaylistView ? <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
+                : <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideoFromPlaylist}/>}
                 <h3>{this.state.title}</h3>
-                <h4>Character: {this.state.character}</h4>
-                <h4>Transcript: {this.state.transcript}</h4>
+                {!this.state.inPlaylistView ? <h4>Character: {this.state.character}</h4> : ''}
+                {!this.state.inPlaylistView ? <h4>Transcript: {this.state.transcript}</h4> : ''}
                 <video display="block" margin="0 auto" src={this.state.url} width="320" height="240"
                        style={{borderRadius: "25px"}} controls>Your browser does not support this video.
                 </video>
