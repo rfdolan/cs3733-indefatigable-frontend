@@ -5,6 +5,7 @@ import './style/VideoPanel.css'
 import base_url from './api/api.js'
 
 const get_all_videos_url = base_url + "getAllSegments"
+const create_url = base_url + "uploadVideoSegment"
 /*
 const sampleData = [{title: "Vid Title", transcript: "It is illogical", url: "https://cs3733-indefatigable.s3.us-east-2.amazonaws.com/media/Kirk-ItIsIllogical.ogg",
 character: "Kirk", isRemote: false, isRemoteAvailable: true}, {title: "Vid2 Title", transcript: "Arg", url: "https://cs3733-indefatigable.s3.us-east-2.amazonaws.com/media/fisher-agh.ogg",
@@ -44,7 +45,15 @@ class VideoPanel extends React.Component {
         this.setState({localOnly: !this.state.localOnly});
         this.renderVideos();
     }
-    
+    encodeFile = (file) => {
+    	var reader = new FileReader();
+	reader.readAsDataURL(file);
+
+	reader.onload = function () {
+	  document.createForm.base64Encoding.value = reader.result;
+	  document.createForm.createButton.disabled = false;
+	};
+        }
     renderVideos = () => {
         // Array of JSX videos we want to render.
         let vids = [];
@@ -60,6 +69,53 @@ class VideoPanel extends React.Component {
         return vids;
 
     }
+   processCreateResponse = (result) => {
+        // Can grab any DIV or SPAN HTML element and can then manipulate its
+        // contents dynamically via javascript
+        console.log("result:" + result);
+        this.getAllVideos();
+        }       
+    handleCreateClick = (e) => {
+  var form = document.createForm;
+ 
+  var data = {};
+  data["name"]               = form.constantName.value;
+  
+  if (form.system.checked) {  // be sure to flag system constant requests...
+     data["system"] = true;
+  }
+  
+  // base64EncodedValue":"data:text/plain;base64,My4xND....."
+  var segments = document.createForm.base64Encoding.value.split(',');
+  data["base64EncodedValue"] = segments[1];  // skip first one 
+
+  var js = JSON.stringify(data);
+  console.log("JS:" + js);
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", create_url, true);
+
+  // send the collected data as JSON
+  xhr.send(js);
+
+  // This will process results and update HTML as appropriate. 
+  xhr.onloadend = function () {
+    console.log(xhr);
+    console.log(xhr.request);
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+    	 if (xhr.status === 200) {
+	      console.log ("XHR:" + xhr.responseText);
+	      this.processCreateResponse(xhr.responseText);
+    	 } else {
+    		 console.log("actual:" + xhr.responseText)
+			  var js = JSON.parse(xhr.responseText);
+			  var err = js["response"];
+			  alert (err);
+    	 }
+    } else {
+      this.processCreateResponse("N/A");
+    }
+  };
+}
 
     render() {
         return (
@@ -81,6 +137,11 @@ class VideoPanel extends React.Component {
                     </label>
                 </div>
                 <br />
+Video Title:<input type="text" placeholder="Video Title" style={{margin: "5px"}} />
+                <input type="base64Encoding" hidden value=""/>
+Video Character:<input type="text" placeholder="Video Character" style={{margin: "5px"}} />
+Video Transcript:<input type="text" placeholder="Video Transcript" style={{margin: "5px"}} />
+Select a video file: <input type="file" id="videoF" name="videoF" />
                 <button type="button" onClick={this.uploadNewSegment}>Upload new video</button><br />
                 <br />
                 {this.renderVideos()}
