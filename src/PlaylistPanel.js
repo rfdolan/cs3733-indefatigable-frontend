@@ -85,11 +85,13 @@ class PlaylistPanel extends React.Component {
         return list;
 
     }
+
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
+
     render() {
         return (
             <div>

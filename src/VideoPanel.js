@@ -17,6 +17,12 @@ class VideoPanel extends React.Component {
     state = {
         videos: [],
         localOnly: false,
+        newVideoTitle: "",
+        newVideoCharacter: "",
+        newVideoTranscript: "",
+        newVideoFile: null,
+        newVideoB64: "",
+        needFields: true,
     }
 
     // These two functions make us promise not to update the state if the component
@@ -31,7 +37,7 @@ class VideoPanel extends React.Component {
     }
 
     uploadNewSegment = () =>{
-	this.chandleCreateClick();
+	this.handleCreateClick();
     }
     
     getAllVideos = () => {
@@ -39,21 +45,12 @@ class VideoPanel extends React.Component {
         .then((res) => {this.setState( { videos: res.data.list })})
         .then(() => {if(this._isMounted) {this.renderVideos()}});
     }
-    
 
     toggleFilter = () => {
         this.setState({localOnly: !this.state.localOnly});
         this.renderVideos();
     }
-    encodeFile = (file) => {
-    	var reader = new FileReader();
-	reader.readAsDataURL(file);
 
-	reader.onload = function () {
-	  document.createForm.base64Encoding.value = reader.result;
-	  document.createForm.createButton.disabled = false;
-	};
-        }
     renderVideos = () => {
         // Array of JSX videos we want to render.
         let vids = [];
@@ -62,59 +59,101 @@ class VideoPanel extends React.Component {
             // If we are not filtering by local only OR if we are and this is a local video, add it to the array.
             if((!this.state.localOnly) || (this.state.localOnly && !currVid.isRemote)){
                 vids.push(<li key={currVid.vuid} style={{listStyleType: "none", padding: "5px", float: "left"}}><Video title={currVid.title} transcript={currVid.transcript} url={currVid.url} 
-                    character={currVid.character} isRemote={currVid.isRemote} isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid}></Video></li>);
+                    character={currVid.character} isRemote={currVid.isRemote} isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid} deleteVideoHandler={this.getAllVideos}></Video></li>);
             }
         }
         // Return our JSX tags to render.
         return vids;
 
     }
-   processCreateResponse = (result) => {
+
+    processCreateResponse = (result) => {
         // Can grab any DIV or SPAN HTML element and can then manipulate its
         // contents dynamically via javascript
         console.log("result:" + result);
         this.getAllVideos();
-        }       
+    }       
+
     handleCreateClick = (e) => {
-  var form = document.createForm;
- 
-  var data = {};
-  data["b64"]               = form.constantName.value;
-  data["system"] = true;
-  }
-  
-  // base64EncodedValue":"data:text/plain;base64,My4xND....."
-  var segments = document.createForm.b64.value.split(',');
-  data["base64EncodedValue"] = segments[1];  // skip first one 
+        //console.log(this.state);
+        
+        var data = {};
+        data["title"] = this.state.newVideoTitle;
+        data["transcript"] = this.state.newVideoTranscript;
+        data["character"] = this.state.newVideoCharacter;
+        
+        // base64EncodedValue":"data:text/plain;base64,My4xND....."
+        var segments = this.state.newVideoB64.split(',');
+        data["video"] = segments[1];  // skip first one 
 
-  var js = JSON.stringify(data);
-  console.log("JS:" + js);
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", create_url, true);
+        var js = JSON.stringify(data);
+        console.log("JS:" + js);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", create_url, true);
 
-  // send the collected data as JSON
-  xhr.send(js);
+        // send the collected data as JSON
+        xhr.send(js);
+        console.log("Sent");
 
-  // This will process results and update HTML as appropriate. 
-  xhr.onloadend = function () {
-    console.log(xhr);
-    console.log(xhr.request);
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-    	 if (xhr.status === 200) {
-	      console.log ("XHR:" + xhr.responseText);
-	      this.processCreateResponse(xhr.responseText);
-    	 } else {
-    		 console.log("actual:" + xhr.responseText)
-			  var js = JSON.parse(xhr.responseText);
-			  var err = js["response"];
-			  alert (err);
-    	 }
-    } else {
-      this.processCreateResponse("N/A");
+        /*
+        // This will process results and update HTML as appropriate. 
+        xhr.onloadend = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    console.log ("XHR:" + xhr.responseText);
+                    this.processCreateResponse(xhr.responseText);
+                } else {
+                    console.log("actual:" + xhr.responseText)
+                    var js = JSON.parse(xhr.responseText);
+                    var err = js["response"];
+                    alert (err);
+                }
+            } else {
+                this.processCreateResponse("N/A");
+            }
+            this.setState({
+                newVideoB64: "",
+                newVideoCharacter: "",
+                newVideoFile: "",
+                newVideoTitle: "",
+                newVideoTranscript: ""
+            })
+        };
+        */
     }
-  };
-}
 
+    encodeFile = (file) => {
+        //console.log("File " + file);
+    	var reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        //console.log(reader);
+        reader.onload =  ()=> {
+            this.setState({newVideoB64: reader.result, needFields: false});
+        };
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    handleVideoChange = (e) => {
+        //console.log(e);
+        var files = e.target.files;
+        if (files[0].size > 1000000) {  // make as large or small as you need
+            this.setState({newVideoB64:""});
+            alert("File size too large to use:" + files[0].size + " bytes");
+        }
+    
+        this.encodeFile(files[0]);
+        this.handleChange(e);
+        this.setState({
+            needFields: false
+        })
+    }
+//<input name="newPlaylistName" value={this.state.newPlaylistName} type="text" onChange={e => this.handleChange(e)}></input>
     render() {
         return (
             <div>
@@ -136,18 +175,18 @@ class VideoPanel extends React.Component {
                 </div>
                 <br />
 
-<form name ="createForm">
-Video Title:<input type="text" placeholder="Video Title" name="videoT" style={{margin: "5px"}} />
-                <input type="base64Encoding" name="b64" hidden value=""/>
-Video Character:<input type="text" placeholder="Video Character" style={{margin: "5px"}} />
-Video Transcript:<input type="text" placeholder="Video Transcript" name="VideoTrans" style={{margin: "5px"}} />
-Select a video file: <input type="file" id="videoF" name="videoF" />
-                <button type="button" onClick={this.uploadNewSegment}>Upload new video</button><br />
+                <form name ="createForm">
+                Video Title:<input name="newVideoTitle" type="text" placeholder="Video Title" value={this.state.newVideoTitle} onChange={e => this.handleChange(e)} style={{margin: "5px"}} />
+                                <input type="base64Encoding"  name="newVideoB64" hidden />
+                Video Character:<input name="newVideoCharacter" value={this.state.newVideoCharacter} type="text" placeholder="Video Character" onChange={e => this.handleChange(e)} style={{margin: "5px"}} />
+                Video Transcript:<input name="newVideoTranscript" value={this.state.newVideoTranscript} type="text" placeholder="Video Transcript" onChange={e => this.handleChange(e)} style={{margin: "5px"}} />
+                Select a video file: <input name="newVideoFile"  type="file"  onChange={e => this.handleVideoChange(e)}  />
+                <button type="button" onClick={this.uploadNewSegment} disabled={this.state.needFields}>Upload new video</button><br />
                 <br />
                 {this.renderVideos()}
-            </div>
-        );
-    } </form>
+            </form>
+      </div>  );
+    } 
 }
 
 export default VideoPanel;

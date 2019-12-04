@@ -46,7 +46,7 @@ class Video extends React.Component {
 
     render() {
         return (
-            <div style={{padding: "10px", maxWidth: "325px", backgroundColor: "#3ed2e6", borderRadius: "25px"}}>
+            <div style={{display: "inline-block", margin: "0 0 1em",  padding: "1em", maxWidth: "325px", backgroundColor: "#3ed2e6", borderRadius: "25px"}}>
                 <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
                 <h3>{this.state.title}</h3>
                 <h4>Character: {this.state.character}</h4>
