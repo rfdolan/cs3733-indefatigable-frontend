@@ -16,6 +16,8 @@ class VideoPanel extends React.Component {
     state = {
         videos: [],
         localOnly: false,
+        charSearch : "",
+        transSearch : ""
     }
 
     // These two functions make us promise not to update the state if the component
@@ -32,13 +34,32 @@ class VideoPanel extends React.Component {
     uploadNewSegment = () =>{
         console.log("You want to upload a new segment don't you squidward.");
     }
+
+    updateCharState = (evt) => {
+        this.state.charSearch = evt.target.value;
+    }
+
+    updateTransState = (evt) => {
+        this.state.transSearch = evt.target.value;
+    }
+
+    searchVideos = () => {
+        console.log("Character: " + this.state.charSearch);
+        console.log("Transcript: " + this.state.transSearch);
+    }
     
     getAllVideos = () => {
         axios.get(get_all_videos_url)
-        .then((res) => {this.setState( { videos: res.data.list })})
-        .then(() => {if(this._isMounted) {this.renderVideos()}});
+            .then((res) => {
+                this.setState({videos: res.data.list})
+            })
+            .then(() => {
+                if (this._isMounted) {
+                    this.renderVideos()
+                }
+            });
     }
-    
+
 
     toggleFilter = () => {
         this.setState({localOnly: !this.state.localOnly});
@@ -68,10 +89,10 @@ class VideoPanel extends React.Component {
                     <form>
                         <label style={{display:"inline-block"}}>
                             Search Text:
-                            <input type="text" placeholder="Text to search for" style={{margin: "5px"}} />
+                            <input type="text" placeholder="Text to search for" onChange={this.updateTransState} style={{margin: "5px"}} />
                             Character:
-                            <input type="character" placeholder="Character name" style={{margin: "5px"}}/>
-                            <button type="submit">Go</button>
+                            <input type="character" placeholder="Character name" onChange={this.updateCharState} style={{margin: "5px"}}/>
+                            <button type="button" onClick={this.searchVideos}>Go</button>
                         </label>
                     </form>
                     <p>Local segments only</p>
