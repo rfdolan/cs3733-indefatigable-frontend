@@ -13,7 +13,9 @@ class Video extends React.Component {
         isRemote: this.props.isRemote,
         isRemotelyAvailable: this.props.isRemotelyAvailable,
         id: this.props.id,
-        inPlaylistView: this.props.inPlaylistView
+        inPlaylistView: this.props.inPlaylistView,
+        inSelectView: this.props.select,
+        puid: this.props.puid
     }
 
     deleteVideo = () => {
@@ -44,21 +46,31 @@ class Video extends React.Component {
             console.log("Video couldn't be deleted.")
         }
     }
+
     deleteVideoFromPlaylist = () => {
-        alert("not yet implemented!")
+        alert("Deleting video " + this.state.id + " from playlist " + this.state.puid)
+    }
+
+    addVideoToPlaylist = () => {
+        alert("Adding video " + this.state.id + " to playlist " + this.state.puid)
     }
 
     render() {
         return (
             <div style={{padding: "10px", maxWidth: "325px", backgroundColor: "#3ed2e6", borderRadius: "25px"}}>
-                {!this.state.inPlaylistView ? <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
-                : <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideoFromPlaylist}/>}
+                {!this.state.inSelectView ? <div>
+                    {!this.state.inPlaylistView ? <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
+                        : <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideoFromPlaylist}/>}
+                </div> : ''}
                 <h3>{this.state.title}</h3>
                 {!this.state.inPlaylistView ? <h4>Character: {this.state.character}</h4> : ''}
                 {!this.state.inPlaylistView ? <h4>Transcript: {this.state.transcript}</h4> : ''}
                 <video display="block" margin="0 auto" src={this.state.url} width="320" height="240"
                        style={{borderRadius: "25px"}} controls>Your browser does not support this video.
                 </video>
+                <div style={{textAlign: "center"}}>
+                    {this.props.select ? <button onClick={this.addVideoToPlaylist}>Add Video</button> : ''}
+                </div>
             </div>
         )
     }

@@ -2,6 +2,7 @@ import React from 'react'
 import Playlist from './Playlist.js'
 import axios from 'axios'
 import base_url from './api/api.js'
+import VideoPanel from "./VideoPanel"
 
 
 const get_all_playlists_url = base_url + 'getAllPlaylists'
@@ -13,6 +14,7 @@ class PlaylistPanel extends React.Component {
     state = {
         playlists: [],
         newPlaylistName: "",
+        showVideoSelection: false
     }
 
     // These two functions make us promise not to update the state if the component
@@ -109,6 +111,7 @@ class PlaylistPanel extends React.Component {
                 <br/>
                 <br/>
                 {this.renderPlaylists()}
+                <div>{this.state.showVideoSelection ? <VideoPanel/> : ''}</div>
             </div>
         )
     }
