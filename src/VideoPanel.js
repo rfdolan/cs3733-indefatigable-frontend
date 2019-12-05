@@ -59,7 +59,7 @@ class VideoPanel extends React.Component {
         let request = {};
         request["transcript"] = this.state.transSearch;
         request["character"] = this.state.charSearch;
-        console.log(request)
+        //console.log(request)
         let js = JSON.stringify(request);
         //console.log("Request: " + js);
         let xhr = new XMLHttpRequest();
@@ -68,11 +68,11 @@ class VideoPanel extends React.Component {
         xhr.send(js);
 
         xhr.onloadend = () => {
-            console.log(xhr);
-            console.log(xhr.request);
+            //console.log(xhr);
+            //console.log(xhr.request);
 
             if(xhr.readyState === XMLHttpRequest.DONE) {
-                console.log("XHR:" + xhr.responseText);
+                //console.log("XHR:" + xhr.responseText);
                 this.processSearchResponse(xhr.responseText);
             }
             else {
@@ -146,7 +146,7 @@ class VideoPanel extends React.Component {
         data["video"] = segments[1];  // skip first one 
 
         var js = JSON.stringify(data);
-        console.log("JS:" + js);
+        //console.log("JS:" + js);
         var xhr = new XMLHttpRequest();
         xhr.open("POST", create_url, true);
 
@@ -168,7 +168,7 @@ class VideoPanel extends React.Component {
         let js = JSON.parse(result);
         let status = js["statusCode"];
         // on success, render playlists again
-        console.log(js);
+        //console.log(js);
         if(status === 200) {
             console.log("Created");
             this.getAllVideos();
