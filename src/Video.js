@@ -3,6 +3,8 @@ import base_url from "./api/api"
 import {FaTrashAlt} from 'react-icons/fa'
 
 const delete_url = base_url + 'deleteSegment'
+const delete_from_playlist_url = base_url + 'deleteSegmentFromPlaylist'
+const add_to_playlist_url = base_url + 'appendSegmentToPlaylist'
 
 class Video extends React.Component {
     state = {
@@ -48,11 +50,41 @@ class Video extends React.Component {
     }
 
     deleteVideoFromPlaylist = () => {
-        alert("Deleting video " + this.state.id + " from playlist " + this.state.puid)
+        if (window.confirm("Deleting video " + this.state.id + " from playlist " + this.state.puid)){
+            let data = {}
+            data["vuid"] = this.props.id
+            data["puid"] = this.state.puid
+            let js = JSON.stringify(data)
+            let xhr = new XMLHttpRequest()
+            xhr.open("POST", delete_from_playlist_url, true)
+            xhr.send(js)
+            xhr.onloadend = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    console.log("deleted successfully")
+                } else {
+                    console.log("error in deleting video")
+                }
+            }
+        }
     }
 
     addVideoToPlaylist = () => {
-        alert("Adding video " + this.state.id + " to playlist " + this.state.puid)
+        if (window.confirm("Adding video " + this.state.id + " to playlist " + this.state.puid)){
+            let data = {}
+            data["vuid"] = this.props.id
+            data["puid"] = this.state.puid
+            let js = JSON.stringify(data)
+            let xhr = new XMLHttpRequest()
+            xhr.open("POST", add_to_playlist_url, true)
+            xhr.send(js)
+            xhr.onloadend = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    console.log("added successfully")
+                } else {
+                    console.log("error in adding video")
+                }
+            }
+        }
     }
 
     render() {

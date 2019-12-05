@@ -80,7 +80,7 @@ class Playlist extends React.Component {
         for (let i = 0; i < this.state.videos.length; i++) {
             let currVideo = this.state.videos[i]
             list.push(<Video title={currVideo.title} character={currVideo.character} transcript={currVideo.transcript}
-                             url={currVideo.url} inPlaylistView={true} puid={this.state.id}/>)
+                             url={currVideo.url} inPlaylistView={true} puid={this.state.id} id={currVideo.vuid}/>)
         }
         return list
     }
