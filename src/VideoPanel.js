@@ -5,6 +5,7 @@ import './style/VideoPanel.css'
 import base_url from './api/api.js'
 
 const get_all_videos_url = base_url + "getAllSegments"
+const search_url = base_url + "searchSegments";
 /*
 const sampleData = [{title: "Vid Title", transcript: "It is illogical", url: "https://cs3733-indefatigable.s3.us-east-2.amazonaws.com/media/Kirk-ItIsIllogical.ogg",
 character: "Kirk", isRemote: false, isRemoteAvailable: true}, {title: "Vid2 Title", transcript: "Arg", url: "https://cs3733-indefatigable.s3.us-east-2.amazonaws.com/media/fisher-agh.ogg",
@@ -16,6 +17,8 @@ class VideoPanel extends React.Component {
     state = {
         videos: [],
         localOnly: false,
+        charSearch : "",
+        transSearch : ""
     }
 
     // These two functions make us promise not to update the state if the component
@@ -32,13 +35,68 @@ class VideoPanel extends React.Component {
     uploadNewSegment = () =>{
         console.log("You want to upload a new segment don't you squidward.");
     }
+
+    updateCharState = (evt) => {
+        this.setState({charSearch : evt.target.value});
+    }
+
+    updateTransState = (evt) => {
+        this.setState({transSearch : evt.target.value});
+    }
+
+    searchVideos = () => {
+        console.log("Character: " + this.state.charSearch);
+        console.log("Transcript: " + this.state.transSearch);
+
+        let request = {};
+        request["transcript"] = this.state.transSearch;
+        request["character"] = this.state.charSearch;
+        console.log(request)
+        let js = JSON.stringify(request);
+        //console.log("Request: " + js);
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", search_url, true);
+
+        xhr.send(js);
+
+        xhr.onloadend = () => {
+            console.log(xhr);
+            console.log(xhr.request);
+
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                console.log("XHR:" + xhr.responseText);
+                this.processSearchResponse(xhr.responseText);
+            }
+            else {
+                this.processSearchResponse("N/A");
+            }
+        }
+    }
+
+    processSearchResponse = (res) => {
+        if (res === "N/A") {
+            console.log("Something went wrong!!!!");
+        } else {
+            const videos = JSON.parse(res);
+            this.setState(videos);
+            if (this._isMounted) {
+                this.renderVideos();
+            }
+        }
+    }
     
     getAllVideos = () => {
         axios.get(get_all_videos_url)
-        .then((res) => {this.setState( { videos: res.data.list })})
-        .then(() => {if(this._isMounted) {this.renderVideos()}});
+            .then((res) => {
+                this.setState({videos: res.data.list})
+            })
+            .then(() => {
+                if (this._isMounted) {
+                    this.renderVideos()
+                }
+            });
     }
-    
+
 
     toggleFilter = () => {
         this.setState({localOnly: !this.state.localOnly});
@@ -68,10 +126,10 @@ class VideoPanel extends React.Component {
                     <form>
                         <label style={{display:"inline-block"}}>
                             Search Text:
-                            <input type="text" placeholder="Text to search for" style={{margin: "5px"}} />
+                            <input type="text" placeholder="Text to search for" onChange={this.updateTransState} style={{margin: "5px"}} />
                             Character:
-                            <input type="character" placeholder="Character name" style={{margin: "5px"}}/>
-                            <button type="submit">Go</button>
+                            <input type="character" placeholder="Character name" onChange={this.updateCharState} style={{margin: "5px"}}/>
+                            <button type="button" onClick={this.searchVideos}>Go</button>
                         </label>
                     </form>
                     <p>Local segments only</p>
