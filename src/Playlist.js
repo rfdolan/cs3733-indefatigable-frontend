@@ -1,7 +1,10 @@
 import React from 'react'
 import base_url from './api/api.js'
-import {FaTrashAlt, FaPlayCircle, FaWindowClose, FaPlusCircle} from 'react-icons/fa'
+import {FaTrashAlt, FaPlayCircle, FaWindowClose, FaPlusCircle, FaMinusCircle} from 'react-icons/fa'
 import Video from "./Video"
+import VideoPanel from "./VideoPanel"
+import PlaylistPanel from "./PlaylistPanel"
+import SelectVideo from "./SelectVideo"
 
 const delete_url = base_url + 'deletePlaylist'
 
@@ -10,7 +13,8 @@ class Playlist extends React.Component {
         title: this.props.title,
         videos: this.props.videos,
         id: this.props.id,
-        opened: false
+        opened: false,
+        showVideoSelection: false
     }
 
     deletePlaylist = () => {
@@ -31,21 +35,10 @@ class Playlist extends React.Component {
                     this.processDeleteResponse(this.state.id, "N/A")
                 }
             }
-            //axios.post(delete_url).then((res) => {console.log(res)})
-            /*
-            axios.post(delete_url, {
-                
-                params: {
-                    puid: this.state.id
-                }
-            })/*.then((res) => {console.log(res)});*/
-
         }
-
     }
 
     processDeleteResponse = (puid, result) => {
-        //console.log("result:" + result);
         let js = JSON.parse(result)
 
         let status = js["statusCode"]
@@ -65,12 +58,18 @@ class Playlist extends React.Component {
         }))
     }
 
+    addVideos = () => {
+        this.setState(prevState => ({
+            showVideoSelection: !prevState.showVideoSelection
+        }))
+    }
+
     getVideos = () => {
         let list = []
         for (let i = 0; i < this.state.videos.length; i++) {
             let currVideo = this.state.videos[i]
-            list.push(<Video title={currVideo.title} character={currVideo.character} transcript={currVideo.transcript}
-                             url={currVideo.url} inPlaylistView={true}/>)
+            list.push(<Video title={currVideo.title} url={currVideo.url} inPlaylistView={true} puid={this.state.id}
+                             id={currVideo.vuid}/>)
         }
         return list
     }
@@ -88,11 +87,13 @@ class Playlist extends React.Component {
                 <h3>{this.state.title}</h3>
                 {this.state.videos.length > 0 && this.state.opened === false ?
                     <FaPlayCircle style={{float: "right", marginLeft: "5px"}} onClick={this.processClick}/> : ''}
-                {this.state.opened === true ?
+                {this.state.opened ?
                     <FaWindowClose style={{float: "right", marginLeft: "5px"}} onClick={this.processClick}/> : ''}
-                <FaPlusCircle style={{float: "right"}}/>
+                {!this.state.showVideoSelection ? <FaPlusCircle style={{float: "right"}} onClick={this.addVideos}/> :
+                    <FaMinusCircle style={{float: "right"}} onClick={this.addVideos}/>}
                 <br/>
                 <div>{this.state.opened ? this.getVideos() : ''}</div>
+                <div>{this.state.showVideoSelection ? <SelectVideo puid={this.state.id} getVideosHandler={this.getVideos}/> : ''}</div>
             </div>
         )
     }
