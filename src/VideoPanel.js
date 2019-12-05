@@ -20,7 +20,7 @@ class VideoPanel extends React.Component {
         newVideoTitle: "",
         newVideoCharacter: "",
         newVideoTranscript: "",
-        newVideoFile: null,
+        newVideoFile: "",
         newVideoB64: "",
         needFields: true,
     }
@@ -95,31 +95,36 @@ class VideoPanel extends React.Component {
         xhr.send(js);
         console.log("Sent");
 
-        /*
         // This will process results and update HTML as appropriate. 
         xhr.onloadend = () => {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    console.log ("XHR:" + xhr.responseText);
-                    this.processCreateResponse(xhr.responseText);
-                } else {
-                    console.log("actual:" + xhr.responseText)
-                    var js = JSON.parse(xhr.responseText);
-                    var err = js["response"];
-                    alert (err);
-                }
-            } else {
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                this.processCreateResponse(xhr.responseText);
+            }
+            else {
                 this.processCreateResponse("N/A");
             }
-            this.setState({
-                newVideoB64: "",
-                newVideoCharacter: "",
-                newVideoFile: "",
-                newVideoTitle: "",
-                newVideoTranscript: ""
-            })
         };
-        */
+    }
+    processCreateResponse = (result) => {
+        let js = JSON.parse(result);
+        let status = js["statusCode"];
+        // on success, render playlists again
+        console.log(js);
+        if(status === 200) {
+            console.log("Created");
+            this.getAllVideos();
+        }
+        else {
+            console.log("Didn't work dude.");
+        }
+        this.setState({
+            newVideoB64: "",
+            newVideoCharacter: "",
+            newVideoFile: "",
+            newVideoTitle: "",
+            newVideoTranscript: ""
+        })
+
     }
 
     encodeFile = (file) => {
@@ -180,7 +185,7 @@ class VideoPanel extends React.Component {
                                 <input type="base64Encoding"  name="newVideoB64" hidden />
                 Video Character:<input name="newVideoCharacter" value={this.state.newVideoCharacter} type="text" placeholder="Video Character" onChange={e => this.handleChange(e)} style={{margin: "5px"}} />
                 Video Transcript:<input name="newVideoTranscript" value={this.state.newVideoTranscript} type="text" placeholder="Video Transcript" onChange={e => this.handleChange(e)} style={{margin: "5px"}} />
-                Select a video file: <input name="newVideoFile"  type="file"  onChange={e => this.handleVideoChange(e)}  />
+                Select a video file: <input name="newVideoFile" type="file" onChange={e => this.handleVideoChange(e)} value={this.state.newVideoFile}  />
                 <button type="button" onClick={this.uploadNewSegment} disabled={this.state.needFields}>Upload new video</button><br />
                 <br />
                 {this.renderVideos()}
