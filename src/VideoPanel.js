@@ -209,7 +209,7 @@ class VideoPanel extends React.Component {
         if (files[0].size > 1000000) {  // make as large or small as you need
             this.setState({newVideoB64:""});
             alert("File size too large to use:" + files[0].size + " bytes");
-        }
+        function}
     
         this.encodeFile(files[0]);
         this.handleChange(e);

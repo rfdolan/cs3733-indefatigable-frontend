@@ -35,21 +35,10 @@ class Playlist extends React.Component {
                     this.processDeleteResponse(this.state.id, "N/A")
                 }
             }
-            //axios.post(delete_url).then((res) => {console.log(res)})
-            /*
-            axios.post(delete_url, {
-                
-                params: {
-                    puid: this.state.id
-                }
-            })/*.then((res) => {console.log(res)});*/
-
         }
-
     }
 
     processDeleteResponse = (puid, result) => {
-        //console.log("result:" + result);
         let js = JSON.parse(result)
 
         let status = js["statusCode"]

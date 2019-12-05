@@ -17,7 +17,8 @@ class Video extends React.Component {
         id: this.props.id,
         inPlaylistView: this.props.inPlaylistView,
         inSelectView: this.props.select,
-        puid: this.props.puid
+        puid: this.props.puid,
+        nextVideo: null
     }
 
     deleteVideo = () => {
@@ -85,6 +86,14 @@ class Video extends React.Component {
                 }
             }
         }
+    }
+
+    addNextVideo = (video) => {
+
+    }
+
+    endedHandler = () => {
+
     }
 
     render() {
