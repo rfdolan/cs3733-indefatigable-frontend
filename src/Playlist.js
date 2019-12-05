@@ -93,7 +93,7 @@ class Playlist extends React.Component {
                     <FaMinusCircle style={{float: "right"}} onClick={this.addVideos}/>}
                 <br/>
                 <div>{this.state.opened ? this.getVideos() : ''}</div>
-                <div>{this.state.showVideoSelection ? <SelectVideo puid={this.state.id}/> : ''}</div>
+                <div>{this.state.showVideoSelection ? <SelectVideo puid={this.state.id} getVideosHandler={this.getVideos}/> : ''}</div>
             </div>
         )
     }

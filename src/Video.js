@@ -61,7 +61,7 @@ class Video extends React.Component {
             xhr.send(js)
             xhr.onloadend = () => {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
-                    console.log("deleted successfully")
+                    window.location.reload(false);
                 } else {
                     console.log("error in deleting video")
                 }
@@ -80,7 +80,7 @@ class Video extends React.Component {
             xhr.send(js)
             xhr.onloadend = () => {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
-                    console.log("added successfully")
+                    window.location.reload(false);
                 } else {
                     console.log("error in adding video")
                 }

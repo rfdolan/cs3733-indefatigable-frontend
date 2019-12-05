@@ -46,7 +46,8 @@ class SelectVideo extends React.Component {
                 vids.push(<li key={currVid.vuid} style={{listStyleType: "none", padding: "5px", float: "left"}}><Video
                     title={currVid.title} url={currVid.url} isRemote={currVid.isRemote}
                     isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid} inPlaylistView={false}
-                    select={true} puid={this.state.puid}/></li>)
+                    select={true} puid={this.state.puid}
+                /></li>)
             }
         }
         // Return our JSX tags to render.
