@@ -44,8 +44,7 @@ class SelectVideo extends React.Component {
             // If we are not filtering by local only OR if we are and this is a local video, add it to the array.
             if ((!this.state.localOnly) || (this.state.localOnly && !currVid.isRemote)) {
                 vids.push(<li key={currVid.vuid} style={{listStyleType: "none", padding: "5px", float: "left"}}><Video
-                    title={currVid.title} transcript={currVid.transcript} url={currVid.url}
-                    character={currVid.character} isRemote={currVid.isRemote}
+                    title={currVid.title} url={currVid.url} isRemote={currVid.isRemote}
                     isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid} inPlaylistView={false}
                     select={true} puid={this.state.puid}/></li>)
             }

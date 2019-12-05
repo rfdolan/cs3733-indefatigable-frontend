@@ -50,7 +50,7 @@ class Video extends React.Component {
     }
 
     deleteVideoFromPlaylist = () => {
-        if (window.confirm("Deleting video " + this.state.id + " from playlist " + this.state.puid)){
+        if (window.confirm("Deleting video " + this.state.id + " from playlist " + this.state.puid)) {
             let data = {}
             data["vuid"] = this.props.id
             data["puid"] = this.state.puid
@@ -69,7 +69,7 @@ class Video extends React.Component {
     }
 
     addVideoToPlaylist = () => {
-        if (window.confirm("Adding video " + this.state.id + " to playlist " + this.state.puid)){
+        if (window.confirm("Adding video " + this.state.id + " to playlist " + this.state.puid)) {
             let data = {}
             data["vuid"] = this.props.id
             data["puid"] = this.state.puid
@@ -95,8 +95,8 @@ class Video extends React.Component {
                         : <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideoFromPlaylist}/>}
                 </div> : ''}
                 <h3>{this.state.title}</h3>
-                {!this.state.inPlaylistView ? <h4>Character: {this.state.character}</h4> : ''}
-                {!this.state.inPlaylistView ? <h4>Transcript: {this.state.transcript}</h4> : ''}
+                {typeof (this.state.character) != 'undefined' ? <h4>Character: {this.state.character}</h4> : ''}
+                {typeof (this.state.character) != 'undefined' ? <h4>Transcript: {this.state.transcript}</h4> : ''}
                 <video display="block" margin="0 auto" src={this.state.url} width="320" height="240"
                        style={{borderRadius: "25px"}} controls>Your browser does not support this video.
                 </video>
