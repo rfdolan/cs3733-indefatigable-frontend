@@ -2,8 +2,8 @@ import React from 'react'
 import base_url from './api/api.js'
 import {FaTrashAlt, FaPlayCircle, FaWindowClose, FaPlusCircle, FaMinusCircle} from 'react-icons/fa'
 import Video from "./Video"
-import VideoPanel from "./VideoPanel"
-import PlaylistPanel from "./PlaylistPanel"
+//import VideoPanel from "./VideoPanel"
+//import PlaylistPanel from "./PlaylistPanel"
 import SelectVideo from "./SelectVideo"
 
 const delete_url = base_url + 'deletePlaylist'

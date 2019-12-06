@@ -44,17 +44,9 @@ class VideoPanel extends React.Component {
         this.handleCreateClick()
     }
 
-    updateCharState = (evt) => {
-        this.setState({charSearch: evt.target.value})
-    }
-
-    updateTransState = (evt) => {
-        this.setState({transSearch: evt.target.value})
-    }
-
     searchVideos = () => {
-        console.log("Character: " + this.state.charSearch)
-        console.log("Transcript: " + this.state.transSearch)
+        //console.log("Character: " + this.state.charSearch)
+        //console.log("Transcript: " + this.state.transSearch)
 
         let request = {}
         request["transcript"] = this.state.transSearch
@@ -218,6 +210,11 @@ class VideoPanel extends React.Component {
         })
     }
 
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter') {
+            this.searchVideos()
+        }
+    }
 //<input name="newPlaylistName" value={this.state.newPlaylistName} type="text" onChange={e => this.handleChange(e)}></input>
     render() {
         return (
@@ -226,11 +223,11 @@ class VideoPanel extends React.Component {
                     <form>
                         <label style={{display: "inline-block"}}>
                             Search Text:
-                            <input type="text" placeholder="Text to search for" onChange={this.updateTransState}
-                                   style={{margin: "5px"}}/>
+                            <input type="text" placeholder="Text to search for" onChange={e => this.handleChange(e)}
+                                   name="transSearch" onKeyPress={this.handleKeyPress} style={{margin: "5px"}}/>
                             Character:
-                            <input type="character" placeholder="Character name" onChange={this.updateCharState}
-                                   style={{margin: "5px"}}/>
+                            <input type="character" placeholder="Character name" onChange={e => this.handleChange(e)}
+                                   name="charSearch" onKeyPress={this.handleKeyPress} style={{margin: "5px"}}/>
                             <button type="button" onClick={this.searchVideos}>Go</button>
                         </label>
                     </form>
