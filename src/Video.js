@@ -18,7 +18,8 @@ class Video extends React.Component {
         inPlaylistView: this.props.inPlaylistView,
         inSelectView: this.props.select,
         puid: this.props.puid,
-        nextVideo: null
+        nextVideo: null,
+        remoteApiId: this.props.remoteApiID
     }
 
     deleteVideo = () => {
@@ -97,10 +98,11 @@ class Video extends React.Component {
     }
 
     render() {
+        console.log(this.state);
         return (
             <div style={{padding: "10px", maxWidth: "325px", backgroundColor: "#3ed2e6", borderRadius: "25px"}}>
-                {!this.state.inSelectView ? <div>
-                    {!this.state.inPlaylistView ? <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
+                {(!this.state.inSelectView && !this.state.isRemote) ? <div>
+                    {!this.state.inPlaylistView  ? <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
                         : <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideoFromPlaylist}/>}
                 </div> : ''}
                 <h3>{this.state.title}</h3>
