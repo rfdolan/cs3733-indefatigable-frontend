@@ -111,7 +111,7 @@ class VideoPanel extends React.Component {
                 vids.push(<li key={currVid.vuid} style={{listStyleType: "none", padding: "5px", float: "left"}}><Video
                     title={currVid.title} transcript={currVid.transcript} url={currVid.url}
                     character={currVid.character} isRemote={currVid.isRemote}
-                    isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid}
+                    isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid} remoteApiID={currVid.remoteApiID}
                     deleteVideoHandler={this.getAllVideos} inPlaylistView={false}/></li>)
             }
         }
@@ -119,7 +119,6 @@ class VideoPanel extends React.Component {
         return vids
 
     }
-
     processCreateResponse = (result) => {
         // Can grab any DIV or SPAN HTML element and can then manipulate its
         // contents dynamically via javascript
