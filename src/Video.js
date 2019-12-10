@@ -100,7 +100,7 @@ class Video extends React.Component {
     render() {
         console.log(this.state);
         return (
-            <div style={{padding: "10px", maxWidth: "325px", backgroundColor: "#3ed2e6", borderRadius: "25px"}}>
+            <div style={{padding: "10px", width: "335px", height: "450px", backgroundColor: "#3ed2e6", borderRadius: "25px", overflowY: "scroll"}}>
                 {(!this.state.inSelectView && !this.state.isRemote) ? <div>
                     {!this.state.inPlaylistView  ? <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
                         : <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideoFromPlaylist}/>}
