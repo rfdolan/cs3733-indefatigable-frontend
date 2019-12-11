@@ -98,7 +98,7 @@ class Video extends React.Component {
     }
 
     renderVideo = () => {
-        if(this.state.inPlaylistView) {
+        if(this.state.inPlaylistView || this.state.inSelectView) {
             return(
                 <div style={{padding: "10px", width: "320px", height: "325px", backgroundColor: "#3ed2e6", borderRadius: "25px"}}>
                     {(!this.state.inSelectView && !this.state.isRemote) ? <div>
