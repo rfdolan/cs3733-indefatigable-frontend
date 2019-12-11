@@ -68,8 +68,8 @@ class Playlist extends React.Component {
         let list = []
         for (let i = 0; i < this.state.videos.length; i++) {
             let currVideo = this.state.videos[i]
-            list.push(<Video title={currVideo.title} url={currVideo.url} inPlaylistView={true} puid={this.state.id}
-                             id={currVideo.vuid}/>)
+            list.push(<li key={currVideo.vuid} style={{padding: "5px"}}><Video title={currVideo.title} url={currVideo.url} inPlaylistView={true} puid={this.state.id}
+                             id={currVideo.vuid}/></li>)
         }
         return list
     }
@@ -78,7 +78,7 @@ class Playlist extends React.Component {
         return (
             <div style={{
                 padding: "10px",
-                maxWidth: "325px",
+                maxWidth: "400px",
                 backgroundColor: "#399e5a",
                 borderRadius: "25px",
                 margin: "5px"

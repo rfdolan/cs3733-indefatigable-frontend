@@ -97,25 +97,53 @@ class Video extends React.Component {
 
     }
 
-    render() {
-        console.log(this.state);
-        return (
-            <div style={{padding: "10px", width: "335px", height: "450px", backgroundColor: "#3ed2e6", borderRadius: "25px", overflowY: "scroll"}}>
-                {(!this.state.inSelectView && !this.state.isRemote) ? <div>
-                    {!this.state.inPlaylistView  ? <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
-                        : <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideoFromPlaylist}/>}
-                </div> : ''}
-                <h3>{this.state.title}</h3>
-                {typeof (this.state.character) != 'undefined' ? <h4>Character: {this.state.character}</h4> : ''}
-                {typeof (this.state.character) != 'undefined' ? <h4>Transcript: {this.state.transcript}</h4> : ''}
-                <video display="block" margin="0 auto" src={this.state.url} width="320" height="240"
-                       style={{borderRadius: "25px"}} controls>Your browser does not support this video.
-                </video>
-                <div style={{textAlign: "center"}}>
-                    {this.props.select ? <button onClick={this.addVideoToPlaylist}>Add Video</button> : ''}
+    renderVideo = () => {
+        if(this.state.inPlaylistView) {
+            return(
+                <div style={{padding: "10px", width: "320px", height: "325px", backgroundColor: "#3ed2e6", borderRadius: "25px"}}>
+                    {(!this.state.inSelectView && !this.state.isRemote) ? <div>
+                        {!this.state.inPlaylistView  ? <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
+                            : <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideoFromPlaylist}/>}
+                    </div> : ''}
+                    <h3>{this.state.title}</h3>
+                    {typeof (this.state.character) != 'undefined' ? <h4>Character: {this.state.character}</h4> : ''}
+                    {typeof (this.state.character) != 'undefined' ? <h4>Transcript: {this.state.transcript}</h4> : ''}
+                    <video display="block" margin="0 auto" src={this.state.url} width="320" height="240"
+                        style={{borderRadius: "25px"}} controls>Your browser does not support this video.
+                    </video>
+                    <div style={{textAlign: "center"}}>
+                        {this.props.select ? <button onClick={this.addVideoToPlaylist}>Add Video</button> : ''}
+                    </div>
                 </div>
-            </div>
-        )
+        
+            )
+
+        }
+        else {
+            return(
+                <div style={{padding: "10px", width: "335px", height: "450px", backgroundColor: "#3ed2e6", borderRadius: "25px", overflowY: "scroll"}}>
+                    {(!this.state.inSelectView && !this.state.isRemote) ? <div>
+                        {!this.state.inPlaylistView  ? <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideo}/>
+                            : <FaTrashAlt style={{float: "right"}} onClick={this.deleteVideoFromPlaylist}/>}
+                    </div> : ''}
+                    <h3>{this.state.title}</h3>
+                    {typeof (this.state.character) != 'undefined' ? <h4>Character: {this.state.character}</h4> : ''}
+                    {typeof (this.state.character) != 'undefined' ? <h4>Transcript: {this.state.transcript}</h4> : ''}
+                    <video display="block" margin="0 auto" src={this.state.url} width="320" height="240"
+                        style={{borderRadius: "25px"}} controls>Your browser does not support this video.
+                    </video>
+                    <div style={{textAlign: "center"}}>
+                        {this.props.select ? <button onClick={this.addVideoToPlaylist}>Add Video</button> : ''}
+                    </div>
+                </div>
+            )
+
+        }
+    }
+
+    render() {
+        //console.log(this.state);
+        return this.renderVideo();
     }
 }
 
