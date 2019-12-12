@@ -1,0 +1,12 @@
+.upload-form {
+    background-color: #FF8552;
+    width:400px;
+    height:200px;
+    display:flex;
+    justify-content:center;
+    position:fixed;
+    left:30%;
+    top:30%;
+    border-radius:25px;
+    z-index:1; 
+}
