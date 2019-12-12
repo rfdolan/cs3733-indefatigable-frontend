@@ -1,68 +1,85 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Frontend participant view for CS3733 Software Engineering project.
 
-In the project directory, you can run:
+B Term 2019
 
-### `yarn start`
+By:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Raymond Dolan
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+René Borner
 
-### `yarn test`
+Jusitn Aquilante
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+James Plante
 
-### `yarn build`
+### To start this project
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Clone the repository
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Run 'npm install.'
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Run 'npm start' to run the project on localhost:3000
 
-### `yarn eject`
+## HOW TO PERFORM USE CASES
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Create Video Segment
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+In video tab, click upload video
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Enter information into form which pops up and choose your file.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Click upload video. Video will be uploaded and display will refresh.
 
-## Learn More
+### Delete Video Segment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+In video tab, click the small trash icon on the local segment you wish to delete.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### List Video Segments
 
-### Code Splitting
+Segments are listed in the video tab by default.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Search Video Segments
 
-### Analyzing the Bundle Size
+In the video tab, enter the text and character to search for and click the button.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+Display will refresh and show only the segments matching the search.
 
-### Making a Progressive Web App
+### Create Playlist
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+In playlist tab, enter a name for the playlist and click create.
 
-### Advanced Configuration
+The display will refresh with the newly created playlist.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### Delete Playlist
 
-### Deployment
+In playlist tab, click the small trash icon on the playlist you wish to delete.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Display will refresh with the new list of playlists.
 
-### `yarn build` fails to minify
+### List Playlists
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Playlists are listed under the playlist tab by default.
+
+### Remove Video Segment From Playlist
+
+In playlist view, click the play button on desired playlist.
+
+Select the trash icon on the segment you wish to remove.
+
+Display will refresh with the playlist being updated.
+
+### Append Video Segment to Playlist
+
+In playlist tab, select the plus button on the playlist you wish to add to.
+
+Search for the segment you wish to add and click the "add video" button to add it.
+
+Display will refresh with updated playlist.
+
+### Play Playlist
+
+Select play button on desired playlist
+
+Click each video individually to play it.

@@ -3,6 +3,7 @@ import Video from './Video'
 import axios from 'axios'
 import './style/VideoPanel.css'
 import base_url from './api/api.js'
+import UploadForm from './UploadForm'
 
 const get_all_videos_url = base_url + "getAllSegments"
 const create_url = base_url + "uploadVideoSegment"
@@ -19,14 +20,12 @@ class VideoPanel extends React.Component {
     state = {
         videos: [],
         localOnly: false,
-        newVideoTitle: "",
-        newVideoCharacter: "",
-        newVideoTranscript: "",
-        newVideoFile: "",
-        newVideoB64: "",
-        needFields: true,
         charSearch: "",
-        transSearch: ""
+        transSearch: "",
+        inPlaylistAdd: this.props.inPlaylistAdd,
+        puid: this.props.puid,
+        getVideosHandler: this.props.getVideosHandler,
+        showForm: false
     }
 
     // These two functions make us promise not to update the state if the component
@@ -87,13 +86,33 @@ class VideoPanel extends React.Component {
     getAllVideos = () => {
         axios.get(get_all_videos_url)
             .then((res) => {
-                this.setState({videos: res.data.list})
-            })
+                this.setState({
+                    videos: res.data.list,
+                    showForm: false
+            })})
             .then(() => {
                 if (this._isMounted) {
                     this.renderVideos()
                 }
             })
+    }
+    renderVideos = () => {
+        // Array of JSX videos we want to render.
+        let vids = []
+        for (let i = 0; i < this.state.videos.length; i++) {
+            let currVid = this.state.videos[i]
+            // If we are not filtering by local only OR if we are and this is a local video, add it to the array.
+            if ((!this.state.localOnly) || (this.state.localOnly && !currVid.isRemote)) {
+                vids.push(<li key={currVid.vuid} style={{listStyleType: "none", padding: "5px", float: "left"}}><Video
+                    title={currVid.title} url={currVid.url} isRemote={currVid.isRemote}
+                    isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid} inPlaylistView={false}
+                    select={this.state.inPlaylistAdd} puid={this.state.puid}
+                /></li>)
+            }
+        }
+        // Return our JSX tags to render.
+        return vids
+
     }
 
     toggleFilter = () => {
@@ -112,18 +131,12 @@ class VideoPanel extends React.Component {
                     title={currVid.title} transcript={currVid.transcript} url={currVid.url}
                     character={currVid.character} isRemote={currVid.isRemote}
                     isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid} remoteApiID={currVid.remoteApiID}
-                    deleteVideoHandler={this.getAllVideos} inPlaylistView={false}/></li>)
+                    deleteVideoHandler={this.getAllVideos} puid={this.state.puid} select={this.state.inPlaylistAdd} inPlaylistView={false}/></li>)
             }
         }
         // Return our JSX tags to render.
         return vids
 
-    }
-    processCreateResponse = (result) => {
-        // Can grab any DIV or SPAN HTML element and can then manipulate its
-        // contents dynamically via javascript
-        console.log("result:" + result)
-        this.getAllVideos()
     }
 
     handleCreateClick = (e) => {
@@ -214,10 +227,29 @@ class VideoPanel extends React.Component {
             this.searchVideos()
         }
     }
+
+    renderUploadForm = () => {
+        if(this.state.showForm){
+            console.log("Rendering form");
+            return <div><UploadForm getAllVideosCallback={this.getAllVideos} closeCallback={this.toggleForm}/></div>
+        }
+        return "";
+        
+    }
+    toggleForm = () => {
+        this.setState({
+            showForm: !this.state.showForm
+        })
+        //this.state.showForm ? this.renderUploadForm() : "";
+    }
 //<input name="newPlaylistName" value={this.state.newPlaylistName} type="text" onChange={e => this.handleChange(e)}></input>
     render() {
         return (
             <div>
+
+                {!this.state.inPlaylistAdd ? <button onClick={this.toggleForm}>Upload new video</button> : ""}
+                {!this.state.inPlaylistAdd ? this.renderUploadForm() : ""}
+                <br />
                 <div>
                     <form>
                         <label style={{display: "inline-block"}}>
@@ -238,27 +270,7 @@ class VideoPanel extends React.Component {
                 </div>
                 <br/>
 
-                <form name="createForm">
-                    Video Title:<input name="newVideoTitle" type="text" placeholder="Video Title"
-                                       value={this.state.newVideoTitle} onChange={e => this.handleChange(e)}
-                                       style={{margin: "5px"}}/>
-                    <input type="base64Encoding" name="newVideoB64" hidden/>
-                    Video Character:<input name="newVideoCharacter" value={this.state.newVideoCharacter} type="text"
-                                           placeholder="Video Character" onChange={e => this.handleChange(e)}
-                                           style={{margin: "5px"}}/>
-                    Video Transcript:<input name="newVideoTranscript" value={this.state.newVideoTranscript} type="text"
-                                            placeholder="Video Transcript" onChange={e => this.handleChange(e)}
-                                            style={{margin: "5px"}}/>
-                    Select a video file: <input name="newVideoFile" type="file"
-                                                onChange={e => this.handleVideoChange(e)}
-                                                value={this.state.newVideoFile}/>
-                    <button type="button" onClick={this.uploadNewSegment} disabled={this.state.needFields}>Upload new
-                        video
-                    </button>
-                    <br/>
-                    <br/>
-                    {this.renderVideos()}
-                </form>
+                {this.renderVideos()}
             </div>)
     }
 }
