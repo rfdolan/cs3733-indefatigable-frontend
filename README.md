@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-#Frontend participant view for CS3733 Software Engineering project.
+# Frontend participant view for CS3733 Software Engineering project.
 
 B Term 2019
 
@@ -14,7 +14,7 @@ Jusitn Aquilante
 
 James Plante
 
-###To start this project
+### To start this project
 
 Clone the repository
 
@@ -22,7 +22,7 @@ Run 'npm install.'
 
 Run 'npm start' to run the project on localhost:3000
 
-##HOW TO PERFORM USE CASES
+## HOW TO PERFORM USE CASES
 
 ### Create Video Segment
 
